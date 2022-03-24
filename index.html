@@ -1,0 +1,112 @@
+<!doctype html>
+
+<head>
+	<meta charset="utf-8"/>
+	<meta content="" name="description"/>
+	<meta content="" name="author"/>
+
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+	<meta content="yes" name="apple-mobile-web-app-capable"/>
+	<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+
+	<!-- reveal.js base stylesheel. Don't remove nor edit this. -->
+	<link href="./reveal.js/css/reveal.css" rel="stylesheet"/>
+
+	<!-- POuL theme for reveal.js -->
+	<link href="./poul/css/poul.css" id="theme" rel="stylesheet"/>
+
+	<!-- print-button plugin style -->
+	<link href="./reveal.js/plugin/print-button/style.css" rel="stylesheet"/>
+
+	<!-- Code syntax highlighting -->
+	<link href="./reveal.js/lib/css_highlight/hopscotch.css" rel="stylesheet"/>
+
+	<!-- Printing and PDF exports -->
+	<script>
+		let link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.href = window.location.search.match(/print-pdf/gi)
+			? './poul/css/print/pdf.css' : './poul/css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+
+	<script src="./reveal.js/lib/js/head.min.js"></script>
+	<script src="./reveal.js/js/reveal.js"></script>
+
+	<!-- Init Reveal.js -->
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			Reveal.initialize({
+				controls: false,
+				slideNumber: true,
+				history: true,
+				transition: 'none',
+				pdfMaxPagesPerSlide: 1,
+				pdfSeparateFragments: false,
+				display: 'flex',
+				markdown: {
+					smartypants: true,
+				},
+				keyboard: {
+					38: 'prev',  // Up arrow
+					40: 'next'   // Down arrow
+				},
+				math: {
+					mathjax: './reveal.js/lib/js/mathjax/MathJax.js',
+					config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+				},
+				dependencies: [
+					{
+						src: './reveal.js/plugin/external/external.js',
+						condition: function () {
+							return !!document.querySelector('[data-external],[data-external-replace]');
+						}
+					},
+					{
+						src: './reveal.js/plugin/markdown/marked.js',
+						condition: function () {
+							return !!document.querySelector('[data-markdown]');
+						}
+					},
+					{
+						src: './reveal.js/plugin/markdown/markdown.js',
+						condition: function () {
+							return !!document.querySelector('[data-markdown]');
+						}
+					},
+					{
+						src: './reveal.js/plugin/highlight/highlight.js',
+						async: true,
+						callback: function () {
+							hljs.initHighlightingOnLoad();
+						}
+					},
+					{
+						src: './reveal.js/plugin/notes/notes.js',
+						async: true
+					},
+					{
+						src: './reveal.js/plugin/math/math.js',
+						async: true
+					},
+					{
+						src: './reveal.js/plugin/print-button/print-button.js'
+					}
+				]
+			});
+		});
+	</script>
+</head>
+
+<div class="reveal">
+	<div class="slides">
+		<section data-external-replace="./slides/intro.html"></section>
+		<section data-charset="utf-8"
+				 data-markdown="./slides/content.md"
+				 data-separator="^\r?\n---\r?\n$"
+				 data-separator-notes="^Notes:"
+				 data-separator-vertical="^\r?\n----\r?\n$">
+		</section>
+		<section data-external-replace="./slides/outro.html"></section>
+	</div>
+</div>
