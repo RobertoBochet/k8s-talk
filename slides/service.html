@@ -40,7 +40,7 @@
 <section>
 	<p>Labels/selectors is convenient when we define the resources as <b>yaml specifications</b> and then apply them</p>
 	<p class="fragment" data-fragment-index="1">Alternatively a <b>command</b> exists to do this for us</p>
-	<pre class="fragment" data-fragment-index="2"><code lang="bash" class="input language-bash">kubectl expose RESOURCE_TYPE/NAME --type=SERVICE_TYPE --port=PORT</code></pre>
+	<pre class="fragment" data-fragment-index="2"><code lang="bash" class="input language-bash" style="font-size: 0.9em">kubectl expose RESOURCE_TYPE RESOURCE_NAME --type=SERVICE_TYPE --port=PORT</code></pre>
 	<dl class="fragment" data-fragment-index="2">
 		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose" target="_blank"><code>expose</code></a></dt>
 		<dd><small>creates the required type of service<br/>and bind them to the provided resource port</small></dd>
@@ -48,7 +48,7 @@
 </section>
 <section>
 	<p>We want to expose the <b>TCP</b> port <b>80</b><br/>of our deployment on <b>each cluster node</b></p>
-	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl expose deployment/nginx --type=NodePort --port=80</code></pre>
+	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl expose deployment nginx --type=NodePort --port=80</code></pre>
 	<pre class="fragment"><code lang="bash" class="language-bash">service/nginx exposed</code></pre>
 </section>
 <section>
@@ -82,5 +82,5 @@ working. Further configuration is required.&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 	</code></pre>
-	<small class="fragment">n.b. we defined the service as <b>NodePort</b> so we can use any node IP to reach the service</small>
+	<small class="fragment">n.b. we defined the service as <b><code>NodePort</code></b> so we can use any node IP to reach the service</small>
 </section>
