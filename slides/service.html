@@ -1,0 +1,86 @@
+<section>
+	<h2>Service</h2>
+</section>
+<section>
+	<p>Well, we have a service running in replicas on several nodes</p>
+	<p class="fragment">But is <b>not reachable</b></p>
+	<p class="fragment">We can <b>expose</b> its <b>ports</b> like<br/>we would have made on <b>Podman</b>, right?</p>
+	<h4 class="fragment">No.</h4>
+</section>
+<section>
+	<p>When we work directly with a <b>container engine</b> we statically write rules to <b>bind ports</b> between the container and the host</p>
+	<p class="fragment">Unluckily we have not a <b>single container</b>,<br/>we have several replicas of it</p>
+	<p class="fragment">The fact that these containers are <b>volatile</b><br/>(node die, container die) does not help us</p>
+	<p class="fragment">We need an <b>additional component</b> to deal with this issue</p>
+</section>
+<section>
+	<p><b>Services</b> are thought for this scope</p>
+	<p class="fragment">A service defines a strategy to <b>bind an external port</b> to a resource (e.g deployment)</p>
+</section>
+<section>
+	<p>There are 4 types of native service</p>
+	<dl>
+		<dt class="fragment" data-fragment-index="1"><a href="#" target="_blank"><code>ClusterIp</code></a></dt>
+		<dd class="fragment" data-fragment-index="1"><small>the port is associated to the internal cluster IP</small></dd>
+		<dt class="fragment" data-fragment-index="2"><a href="https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport" target="_blank"><code>NodePort</code></a></dt>
+		<dd class="fragment" data-fragment-index="2"><small>the port is exposed on each nodes IP</small></dd>
+		<dt class="fragment" data-fragment-index="3"><a href="https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer" target="_blank"><code>LoadBalancer</code></a></dt>
+		<dd class="fragment" data-fragment-index="3"><small>demands the port exposing to an external cloud load balancer</small></dd>
+		<dt class="fragment" data-fragment-index="4"><a href="https://kubernetes.io/docs/concepts/services-networking/service/#externalname" target="_blank"><code>ExternalName</code></a></dt>
+		<dd class="fragment" data-fragment-index="4"><small>associated the service to a domain name (e.g. nginx.poul.org) as entry CNAME</small></dd>
+	</dl>
+	<small class="fragment" data-fragment-index="5"><a href="https://kubernetes.io/docs/concepts/services-networking/service/">🔗 further information about services</a></small>
+</section>
+<section>
+	<p>Services work exploiting a <b>labeling system</b></p>
+	<p class="fragment">When we deploy a resource we can associate to<br/>this a list of <b>key/value labels</b></p>
+	<p class="fragment">Then when we will create the service we will provide a <b>selector</b> based on these labels</p>
+	<p class="fragment">The service <b>routes the traffic</b> to the pods<br/>which expose the <b>targets labels</b></p>
+</section>
+<section>
+	<p>Labels/selectors is convenient when we define the resources as <b>yaml specifications</b> and then apply them</p>
+	<p class="fragment" data-fragment-index="1">Alternatively a <b>command</b> exists to do this for us</p>
+	<pre class="fragment" data-fragment-index="2"><code lang="bash" class="input language-bash">kubectl expose RESOURCE_TYPE/NAME --type=SERVICE_TYPE --port=PORT</code></pre>
+	<dl class="fragment" data-fragment-index="2">
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose" target="_blank"><code>expose</code></a></dt>
+		<dd><small>creates the required type of service<br/>and bind them to the provided resource port</small></dd>
+	</dl>
+</section>
+<section>
+	<p>We want to expose the <b>TCP</b> port <b>80</b><br/>of our deployment on <b>each cluster node</b></p>
+	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl expose deployment/nginx --type=NodePort --port=80</code></pre>
+	<pre class="fragment"><code lang="bash" class="language-bash">service/nginx exposed</code></pre>
+</section>
+<section>
+	<p>Let us check the new <b>service</b></p>
+	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl get services</code></pre>
+	<pre class="fragment"><code lang="bash" class="language-bash" data-trim style="font-size: 0.85em">
+NAME		TYPE		CLUSTER-IP		EXTERNAL-IP		PORT(S)			AGE
+kubernetes	ClusterIP	10.96.0.1		&lt;none&gt;			443/TCP			1h
+nginx		NodePort	10.110.73.33	&lt;none&gt;			80:31878/TCP	8m7s
+	</code></pre>
+	<p class="fragment">We can identify a build-in service for the <b><code>kube-api</code></b>,<br/>and the service we required</p>
+
+	<small class="fragment">n.b. the node port on which expose the service was chosen by the control plane</small>
+</section>
+<section>
+	<p>Now, we try to reach the service</p>
+	<pre class="fragment"><code lang="bash" class="input language-bash">curl 172.17.0.3:31878</code></pre>
+	<pre class="fragment"><code lang="html" class="language-html" data-trim style="font-size: 0.85em">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+[...]
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;
+&lt;p&gt;If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.&lt;/p&gt;
+[...]
+&lt;p&gt;&lt;em&gt;Thank you for using nginx.&lt;/em&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+	</code></pre>
+	<small class="fragment">n.b. we defined the service as <b>NodePort</b> so we can use any node IP to reach the service</small>
+</section>

@@ -1,0 +1,69 @@
+<section>
+	<h4>Previously on Linux Courses</h4>
+	<h2 class="fragment">Containers</h2>
+</section>
+<section>
+	<h3>What is a container?</h3>
+	<h4 class="fragment">in a nutshell</h4>
+	<p class="fragment">We can think to containers as a way to <b>isolate</b> a set of programs from the rest of the system</p>
+</section>
+<section>
+	<p>This offers to us an extremely <b>powerful tool</b> to deal with several issues we could meet</p>
+	<ul>
+		<li class="fragment">Isolate for <b>security reasons</b></li>
+		<li class="fragment"><b>Distribute applications</b> with<br/>their environment (e.g. dependencies)</li>
+		<li class="fragment">On-demand isolated environment for <b>experiments</b></li>
+	</ul>
+</section>
+<section>
+	<p>Containers are built on the <b>namespaces Linux</b> feature</p>
+	<p class="fragment">But it is a <b>low level API</b>, and it is not thought to be hand-used to build containers</p>
+	<p class="fragment">Containers are really <b>layered</b> stuff, generally we only deal with the <b>higher layer</b>...</p>
+</section>
+<section>
+	<h4>Container engines</h4>
+	<p class="fragment">These allow us to directly work with the <b>container abstraction</b></p>
+
+	<img src="./images/docker-logo.svg" alt="docker logo" class="fragment" width="400px" />
+
+	<p class="fragment">This layer offers to us an easy and fast way to <b>build</b> and <b>deploy</b> our containers</p>
+</section>
+<section>
+	<h4>The future...</h4>
+	<h5 class="fragment">...if you ask <b style="color:#ee0000">Red Hat</b><br/>
+		<small>...or <a href="https://people.redhat.com/dwalsh/">Daniel J Walsh</a></small></h5>
+
+	<img src="./images/podman-logo.svg" alt="podman logo" class="fragment" width="500px" />
+</section>
+<section>
+	<h4>Why should I use Podman instead of Docker?</h4>
+
+	<ul>
+		<li class="fragment">Podman is <b>deamon-less</b></li>
+		<li class="fragment">Podman is <b>root-less</b></li>
+		<li class="fragment">Podman is <b>securer</b></li>
+		<li class="fragment">Podman has <b>pods</b></li>
+	</ul>
+</section>
+<section>
+	<h4>What the hell is a pod?</h4>
+
+	<p class="fragment">Pods are a <b>further layer of abstraction*</b><br/>which allow <b>to group</b> containers</p>
+	<small class="fragment">*Rule #1: There is always a further layer of abstraction</small>
+</section>
+<section>
+	<p>Containers in the same pod share <b>IPC</b>, <b>network</b>, <b>PID namespaces</b> and <b>cgroups</b></p>
+	<p class="fragment">This can potentially simplify a lot the interconnections between containers</p>
+	<p class="fragment">An example: A <b>service</b> and its <b>db</b> can be deployed in <b>two separate containers</b> but in the <b>same pod</b></p>
+	<small class="fragment">Then the connection from service to db is internal to the pod</small>
+</section>
+<section>
+	<h4>So, what the hell are you waiting for?</h4>
+	<h3 class="fragment" data-fragment-index="0">Start to use Podman</h3>
+	<p class="fragment" data-fragment-index="1">It is a drop-in replacement for Docker</p>
+	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="input  language-bash">alias podman=docker</code></pre>
+</section>
+<section>
+	<h3>Well, can we do better?</h3>
+	<small class="fragment">Remember the <b>rule #1</b>?</small>
+</section>

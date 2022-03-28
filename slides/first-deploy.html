@@ -1,0 +1,85 @@
+<section>
+	<h2>First deploy</h2>
+</section>
+<section data-notes="n.b. K8s namespaces are not the same as Linux namespaces">
+	<h4>Let us start to understand how <code>kubectl</code> works</h4>
+	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="input language-bash">kubectl get RESOURCE</code></pre>
+	<dl class="fragment" data-fragment-index="1">
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get" target="_blank"><code>get</code></a></dt>
+		<dd><small>returns the list of the required resource<br/>(e.g. pods, namespaces, nodes)</small></dd>
+	</dl>
+</section>
+<section>
+	<pre><code lang="bash" class="input language-bash">kubectl get namespaces</code></pre>
+	<pre class="fragment"><code lang="plaintext" class="language-bash" data-trim>
+NAME					STATUS	AGE
+default					Active	39m
+kube-node-lease			Active	39m
+kube-public				Active	39m
+kube-system				Active	39m
+kubernetes-dashboard	Active	34m
+	</code></pre>
+</section>
+<section>
+	<p>Let us try to <b>deploy</b> our first pod</p>
+	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="input language-bash">kubectl run NAME --image=CONTAINER_IMAGE</code></pre>
+	<dl class="fragment" data-fragment-index="1">
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run" target="_blank"><code>run</code></a></dt>
+		<dd><small>requires to deploy a pod on the cluster</small></dd>
+	</dl>
+</section>
+<section>
+	<p>We deploy a simple pod of one container</p>
+	<pre><code lang="bash" class="input language-bash">kubectl run nginx --image=nginx</code></pre>
+	<pre class="fragment"><code lang="plaintext" class="language-bash" data-trim>
+pod/nginx created
+	</code></pre>
+</section>
+<section>
+	<pre><code lang="bash" class="input language-bash">kubectl get pods</code></pre>
+	<pre class="fragment"><code lang="plaintext" class="language-bash" data-trim>
+NAME    READY   STATUS    RESTARTS   AGE
+nginx   1/1     Running   0          10s
+	</code></pre>
+
+	<h4 class="fragment">Our first pod is deployed 🥳</h4>
+	<h4 class="fragment">Now, we understand why we have not to<br/>deploy pods in this way</h4>
+</section>
+<section>
+	<p>If a <b>pod fails</b> then <b>no particular operation</b> will be undertaken by the cluster to rescue it</p>
+	<p class="fragment">We need to introduce <b>some other resources</b> to guarantee <b>high availability (HA)</b> of the deployed services (stand by)</p>
+</section>
+<section>
+	<p>An important concept under K8s:<br/>Any resource can be defined in a <b>declarative</b> way</p>
+	<p class="fragment">We can get the declarative output of a resource<br/>exploiting the <b>command get</b></p>
+	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl get RESOURCE_TYPE/NAME -o=yaml</code></pre>
+	<dl class="fragment">
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get" target="_blank"><code>get RESOURCE_TYPE/NAME</code></a></dt>
+		<dd><small>returns all resource specifications in the required format (yaml or json)</small></dd>
+	</dl>
+</section>
+<section>
+	<pre><code lang="bash" class="input language-bash">kubectl get pods/nginx -o=yaml</code></pre>
+	<pre class="fragment"><code lang="yaml" class="language-yaml" data-trim>
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  [...]
+spec:
+  containers:
+  - image: nginx:latest
+    imagePullPolicy: Always
+    name: nginx
+    resources: {}
+    [...]
+	</code></pre>
+</section>
+<section>
+	<p>If we have a <b>declarative yaml (or json) file</b><br/>of a resource we can deploy it</p>
+	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="input language-bash">kubectl apply (-f FILENAME | -k DIRECTORY)</code></pre>
+	<dl class="fragment" data-fragment-index="1">
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply" target="_blank"><code>apply</code></a></dt>
+		<dd><small>given a resource(s) specifications file(or directory)<br/>this will be deployed if it does not exist yet</small></dd>
+	</dl>
+</section>

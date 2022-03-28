@@ -1,0 +1,41 @@
+<section>
+	<h2>Deployment</h2>
+</section>
+<section>
+	<p>The deploy of a service is generally done<br/>exploiting the resource <b>Deployment</b></p>
+	<p class="fragment">It offers a further layer of abstraction over the pods</p>
+	<p class="fragment">The deployment requires to the cluster<br/>to <b>create</b> and <b>keep alive</b> the pod</p>
+	<p class="fragment">If the pod may fail(e.g. the associated worker node die), then the <b>presence of the deployment</b> brings the cluster to <b>reschedule</b> the pod</p>
+</section>
+<section>
+	<pre><code lang="bash" class="input language-bash">kubectl create RESOURCE</code></pre>
+	<dl>
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#create" target="_blank"><code>create</code></a></dt>
+		<dd><small>creates the required resource in the cluster</small></dd>
+	</dl>
+	<p class="fragment" data-fragment-index="1">In our case</p>
+	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="input language-bash">kubectl create deployment NAME --image=CONTAINER_IMAGE</code></pre>
+	<dl class="fragment" data-fragment-index="1">
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-" target="_blank"><code>create deployment</code></a></dt>
+		<dd><small>creates a deployment of one-container pod with the specified image</small></dd>
+	</dl>
+</section>
+<section>
+	<p>Let us deploy our service again<br/>but <b>exploiting a deployment</b></p>
+	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl create deployment nginx --image=nginx</code></pre>
+	<pre class="fragment"><code lang="bash" class="language-bash">deployment.apps/nginx created</code></pre>
+</section>
+<section>
+	<pre><code lang="bash" class="input language-bash">kubectl get deployments</code></pre>
+	<pre class="fragment"><code lang="bash" class="language-bash" data-trim>
+NAME	READY	UP-TO-DATE		AVAILABLE	AGE
+nginx	1/1		1				1			42s
+	</code></pre>
+	<p class="fragment">This required a related pod</p>
+	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl get pods</code></pre>
+	<pre class="fragment"><code lang="bash" class="language-bash" data-trim>
+NAME					READY	STATUS		RESTARTS	AGE
+nginx-85b98978db-c87qt	1/1		Running		0			42s
+	</code></pre>
+	<p class="fragment">Let us focus on column <b>AVAILABLE</b>, what does it stand for?</p>
+</section>
