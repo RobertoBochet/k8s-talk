@@ -1,0 +1,67 @@
+<section>
+	<h2>ReplicaSet</h2>
+</section>
+<section>
+	<h4>Deployments do not require the pods</h4>
+	<p>or rather, <b>not directly</b></p>
+</section>
+<section>
+	<pre><code lang="bash" class="input language-bash">kubectl get replicasets</code></pre>
+	<pre class="fragment"><code lang="bash" class="language-bash" data-trim>
+NAME				DESIRED		CURRENT		READY	AGE
+nginx-85b98978db	1			1			1		42s
+	</code></pre>
+	<p class="fragment">There is another resource related our Deployment</p>
+</section>
+<section>
+	<p>Remember when we talked<br/>about <b>horizontal scalability</b>?</p>
+	<p class="fragment"><b>ReplicaSet</b> is a resource provides this capability<br/>to our <b>stateless</b> services</p>
+	<p class="fragment">Exploiting it we can choose <b>how many copies</b> of our services we want to deploy on the cluster workers</p>
+</section>
+<section>
+	<p>When we created the <b>deployment</b> this did not require directly the pod deployment</p>
+	<p class="fragment">Instead it requires the creation of a <b>replicaset</b></p>
+	<p class="fragment">Which in turn requested the <b>pod scheduling</b></p>
+</section>
+<section>
+	<pre><code lang="bash" class="input language-bash">kubectl scale --replicas=COUNT RESOURCE_TYPE RESOURCE</code></pre>
+	<dl>
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#scale" target="_blank"><code>scale</code></a></dt>
+		<dd><small>changes the required amount of replicas associated to a resource</small></dd>
+	</dl>
+</section>
+<section>
+	<p>In our case we can scale directly the <b>deployment</b></p>
+	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl scale --replicas=4 deployment nginx</code></pre>
+	<pre class="fragment"><code lang="bash" class="language-bash">deployment.apps/nginx scaled</code></pre>
+</section>
+<section>
+	<pre><code lang="bash" class="input language-bash">kubectl get replicasets</code></pre>
+	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="language-bash" data-trim>
+NAME				DESIRED		CURRENT		READY	AGE
+nginx-85b98978db	4			1			1		6m5s
+	</code></pre>
+
+	<p class="fragment" data-fragment-index="2">The replicaset has been informed of the change,<br/>but it <b>is still working</b> on it...</p>
+	<p class="fragment" data-fragment-index="3">...after a while we get</p>
+
+	<pre class="fragment"  data-fragment-index="3"><code lang="bash" class="language-bash" data-trim>
+NAME				DESIRED		CURRENT		READY	AGE
+nginx-85b98978db	4			4			4		7m13s
+	</code></pre>
+</section>
+<section>
+	<p>If we look at pods</p>
+	<pre><code lang="bash" class="input language-bash">kubectl get pods</code></pre>
+	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="language-bash" data-trim>
+NAME						READY	STATUS		RESTARTS	AGE
+nginx-85b98978db-c87qt		1/1		Running		0			102s
+nginx-85b98978db-f7jn9		1/1		Running		0			102s
+nginx-85b98978db-k8t6n		1/1		Running		0			102s
+nginx-85b98978db-mpnlw		1/1		Running		0			7m33s
+	</code></pre>
+</section>
+<section>
+	<p>A little tip:</p>
+	<p>If you need to temporally <b>shut down a service</b>, but you do not want to delete the deployment you can <b>scale it to zero</b></p>
+</section>

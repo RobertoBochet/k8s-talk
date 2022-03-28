@@ -1,0 +1,117 @@
+<section>
+	<img src="./images/kubernetes-logo.svg" alt="kubernetes logo" width="500px" />
+	<h3 class="fragment">Containers orchestration</h3>
+</section>
+<section>
+	<h3>What is a containers orchestrator?</h3>
+	<small class="fragment">Simply put</small>
+	<p class="fragment">We define the <b>resources</b><br/><small>(e.g. computing power, network, storage space, etc...)</small></p>
+	<p class="fragment">The services we need</p>
+	<h4 class="fragment">Then the orchestrator do the magic</h4>
+</section>
+<section>
+	<h4>An example</h4>
+	<p class="fragment">We have <b>4 computers</b>, some different <b>storage units</b>,<br/>and we need to deploy <b>7 Services</b></p>
+	<p class="fragment">We have to tell to Kubernetes (aka <b>K8s</b>)<br/>the <b>"hardware"</b> it can use...</p>
+	<p class="fragment">...then, based on the <b>services requirements</b>,<br/>it will <b>deploy</b> and <b>assign</b> the resources to the services</p>
+</section>
+<section>
+	<h3>What happens if a computer decides to organize a last minute 🔥barbecue🔥?</h3>
+	<p class="fragment">Kubernetes will <b>immediately reschedule</b> the deployment of the missing services on the <b>other available "hardware"</b></p>
+</section>
+<section>
+	<h4>This is only the first of several strengths of K8s</h4>
+	<ul>
+		<li class="fragment">Failing services will be automagically <b>redeployed</b></li>
+		<li class="fragment"><b>Zero down-time</b> during services upgrade</li>
+		<li class="fragment"><b>Load balancing</b> of requests (horizontal scaling)</li>
+		<li class="fragment"><b>Standard way</b> to deploy services</li>
+		<li class="fragment"><a href="https://kubernetes.io/#features" target="_blank">🔗 and much more</a></li>
+	</ul>
+</section>
+<section>
+	<h3>The cluster</h3>
+	<p class="fragment">When we work with K8s we talk about <b>cluster</b> instead of machines upon which deploy services on</p>
+	<p class="fragment">A cluster is a <b>set</b> of the <b>machines</b> (aka <b>nodes</b>), <b>network storages</b>, and other small things</p>
+</section>
+<section>
+	<h4>Wait, I have no 50 mighty servers</h4>
+	<h4 class="fragment">Does it make sense to have a cluster of one single node?</h4>
+	<img src="./images/yes.png" alt="yes meme" height="250px" class="fragment"/>
+	<p class="fragment">We lose the <b>horizontal scaling related features</b>,<br/>but we preserve the other ones</p>
+	<small class="fragment">Maybe, we should choose a <b>lighter</b> K8s alternative (e.g. <a href="https://k0sproject.io/" target="_blank">K0s</a>)</small>
+</section>
+<section>
+	<h3>All <i>nodes</i> are created equal</h3>
+	<h5 class="fragment">pretty much</h5>
+</section>
+<section>
+	<h3>We can generally identify<br/>two kinds of roles for nodes</h3>
+	<dl>
+		<dt class="fragment" data-fragment-index="1"><b>Control plane nodes</b></dt>
+		<dd class="fragment" data-fragment-index="1"><small>which manage the cluster</small></dd>
+		<dt class="fragment" data-fragment-index="2"><b>Worker nodes</b></dt>
+		<dd class="fragment" data-fragment-index="2"><small>on which the pods run</small></dd>
+	</dl>
+</section>
+<section>
+	<h4>The role of a node is defined<br/>by the components installed on it</h4>
+</section>
+<section>
+	<h3>Control plane components</h3>
+	<dl>
+		<dt class="fragment" data-fragment-index="1"><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/" target="_blank"><code>kube-apiserver</code></a></dt>
+		<dd class="fragment" data-fragment-index="1"><small>exposes a <b>REST API</b> to the user to perform<br/>operations on the cluster</small></dd>
+		<dt class="fragment" data-fragment-index="2"><a href="https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/" target="_blank"><code>etcd</code></a></dt>
+		<dd class="fragment" data-fragment-index="2"><small>used to <b>store</b> and <b>share</b> cluster information<br/>between control plane nodes</small></dd>
+		<dt class="fragment" data-fragment-index="3"><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/" target="_blank"><code>kube-scheduler</code></a></dt>
+		<dd class="fragment" data-fragment-index="3"><small><b>schedules</b> the required pods on the specific worker nodes</small></dd>
+		<dt class="fragment" data-fragment-index="4"><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/" target="_blank"><code>kube-controller-manager</code></a></dt>
+		<dd class="fragment" data-fragment-index="4"><small>manages the various cluster <b>controllers</b><br/>(e.g. node controller, replicaset controller)</small></dd>
+	</dl>
+
+	<p><small class="fragment"><a href="https://kubernetes.io/docs/concepts/overview/components/#control-plane-components" target="_blank">🔗 more on control plane components</a></small></p>
+</section>
+<section>
+	<h3>Worker components</h3>
+	<dl>
+		<dt class="fragment" data-fragment-index="1"><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/" target="_blank"><code>kubelet</code></a></dt>
+		<dd class="fragment" data-fragment-index="1"><small>receives the <b>pods specifications</b>,<br/>takes care of <b>create</b> it and <b>monitors</b> its life cycle</small></dd>
+		<dt class="fragment" data-fragment-index="2"><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/" target="_blank"><code>kube-proxy</code></a><br/></dt>
+		<dd class="fragment" data-fragment-index="2"><small>manages the node <b>networks</b></small></dd>
+		<dt class="fragment" data-fragment-index="3"><b>Container runtime</b></dt>
+		<dd class="fragment" data-fragment-index="3"><small>(e.g. Docker, Containered, ecc)</small></dd>
+	</dl>
+
+	<p><small class="fragment"><a href="https://kubernetes.io/docs/concepts/overview/components/#node-components" target="_blank">🔗 more on worker components</a></small></p>
+</section>
+<section>
+	<p>Let us assume we have a configured K8s cluster</p>
+	<h3 class="fragment">How can I work with it?</h3>
+</section>
+<section>
+	<h4>We have to communicate to <code>kube-apiserver</code></h4>
+
+	<p class="fragment">Generally we can locate the file<br/><b><code>/etc/kubernetes/admin.conf</code></b><br/>on the control plate node</p>
+	<p class="fragment">This file contains the <b>administration<br/>configuration</b> to communicate to the cluster</p>
+
+	<p class="fragment"><small>This is the equivalent to login as <b><code>root</code></b>, K8s support granular permission<br/><a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/">🔗 read more</a></small></p>
+</section>
+<section>
+	<h4>Everything starts from <code>kubectl</code></h4>
+	<h5 class="fragment">Let us install it</h5>
+	<pre class="fragment"><code lang="bash" class="input language-bash">pacman -Syu kubectl</code></pre>
+
+	<p class="fragment"><small><a href="https://kubernetes.io/docs/tasks/tools/#kubectl" target="_blank">🔗 other installers</a></small></p>
+</section>
+<section>
+	<p>Copy the <b><code>admin.conf</code></b> content in<br/><b><code>~/.kube/config.conf</code></b></p>
+	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl get nodes</code></pre>
+	<pre class="fragment"><code lang="plaintext" class="language-bash" data-trim>
+NAME			STATUS	ROLES					AGE		VERSION
+sailor_uranus	Ready	control-plane,master	2h		v1.23.3
+sailor_neptune	Ready	&lt;none&gt;					2h		v1.23.3
+sailor_saturn	Ready	&lt;none&gt;					2h		v1.23.3
+	</code></pre>
+	<h4 class="fragment">We are ready</h4>
+</section>
