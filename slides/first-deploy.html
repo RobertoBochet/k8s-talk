@@ -50,16 +50,57 @@ nginx   1/1     Running   0          10s
 	<p class="fragment">We need to introduce <b>some other resources</b> to guarantee <b>high availability (HA)</b> of the deployed services (stand by)</p>
 </section>
 <section>
-	<p>An important concept under K8s:<br/>Any resource can be defined in a <b>declarative</b> way</p>
-	<p class="fragment">We can get the declarative output of a resource<br/>exploiting the <b>command get</b></p>
-	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl get RESOURCE_TYPE/NAME -o=yaml</code></pre>
+	<p>Let us introduce another useful command<br/>to get all the <b>information</b> about a specific resource</p>
+	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="input language-bash">kubectl describe RESOURCE_TYPE RESOURCE_NAME</code></pre>
+	<dl class="fragment" data-fragment-index="1">
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run" target="_blank"><code>run</code></a></dt>
+		<dd><small>returns several information about the required resource</small></dd>
+	</dl>
+</section>
+<section>
+	<pre><code lang="bash" class="input language-bash">kubectl describe pod nginx</code></pre>
+	<pre class="fragment"><code lang="bash" class="language-bash" data-trim>
+Name:         nginx
+Namespace:    default
+Priority:     0
+Node:         sailor_uranus/172.17.0.2
+[...]
+Status:       Running
+IP:           172.18.0.3
+Containers:
+  nginx:
+    Image:          nginx:latest
+    Ready:          True
+    Restart Count:  0
+[...]
+	</code></pre>
+</section>
+<section>
+	<p>One of the most usefull information provided by the command <b>describe</b> can be found at the bottom</p>
+	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="language-bash" data-trim style="font-size: 0.68em">
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  25s   default-scheduler  Successfully assigned default/nginx to sailor_uranus
+  Normal  Pulling    22s   kubelet            Pulling image "nginx:latest"
+  Normal  Pulled     21s   kubelet            Successfully pulled image "nginx:latest" in 1.519s
+  Normal  Created    20s   kubelet            Created container nginx
+  Normal  Started    20s   kubelet            Started container nginx
+	</code></pre>
+	<p class="fragment" data-fragment-index="1">This list reports all the <b>events</b> about the resource;<br/>it is really useful for <b>debug</b></p>
+</section>
+<section>
+	<p>An important concept under K8s,<br/>that you may have noticed:</p>
+	<p class="fragment">Any resource can be defined in a <b>declarative</b> way</p>
+	<p class="fragment">We can get the declarative definition of a resource<br/>exploiting the <b>command get</b></p>
+	<pre class="fragment"><code lang="bash" class="input language-bash">kubectl get RESOURCE_TYPE RESOURCE_NAME -o=yaml</code></pre>
 	<dl class="fragment">
-		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get" target="_blank"><code>get RESOURCE_TYPE/NAME</code></a></dt>
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get" target="_blank"><code>get RESOURCE_TYPE RESOURCE_NAME</code></a></dt>
 		<dd><small>returns all resource specifications in the required format (yaml or json)</small></dd>
 	</dl>
 </section>
 <section>
-	<pre><code lang="bash" class="input language-bash">kubectl get pods/nginx -o=yaml</code></pre>
+	<pre><code lang="bash" class="input language-bash">kubectl get pods nginx -o=yaml</code></pre>
 	<pre class="fragment"><code lang="yaml" class="language-yaml" data-trim>
 apiVersion: v1
 kind: Pod

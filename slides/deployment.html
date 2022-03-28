@@ -4,11 +4,11 @@
 <section>
 	<p>The deploy of a service is generally done<br/>exploiting the resource <b>Deployment</b></p>
 	<p class="fragment">It offers a further layer of abstraction over the pods</p>
-	<p class="fragment">The deployment requires to the cluster<br/>to <b>create</b> and <b>keep alive</b> the pod</p>
-	<p class="fragment">If the pod may fail(e.g. the associated worker node die), then the <b>presence of the deployment</b> brings the cluster to <b>reschedule</b> the pod</p>
+	<p class="fragment">The deployment requires the cluster<br/>to <b>create</b> and <b>keep alive</b> the pod</p>
+	<p class="fragment">Should the pod fail (e.g. the associated worker node die), the <b>presence of the deployment</b> brings the cluster to <b>reschedule</b> the pod</p>
 </section>
 <section>
-	<pre><code lang="bash" class="input language-bash">kubectl create RESOURCE</code></pre>
+	<pre><code lang="bash" class="input language-bash">kubectl create RESOURCE_TYPE RESOURCE_NAME</code></pre>
 	<dl>
 		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#create" target="_blank"><code>create</code></a></dt>
 		<dd><small>creates the required resource in the cluster</small></dd>

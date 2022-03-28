@@ -20,11 +20,11 @@ nginx-85b98978db	1			1			1		42s
 </section>
 <section>
 	<p>When we created the <b>deployment</b> this did not require directly the pod deployment</p>
-	<p class="fragment">Instead it requires the creation of a <b>replicaset</b></p>
+	<p class="fragment">Instead it required the creation of a <b>replicaset</b></p>
 	<p class="fragment">Which in turn requested the <b>pod scheduling</b></p>
 </section>
 <section>
-	<pre><code lang="bash" class="input language-bash">kubectl scale --replicas=COUNT RESOURCE_TYPE RESOURCE</code></pre>
+	<pre><code lang="bash" class="input language-bash">kubectl scale --replicas=COUNT RESOURCE_TYPE RESOURCE_NAME</code></pre>
 	<dl>
 		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#scale" target="_blank"><code>scale</code></a></dt>
 		<dd><small>changes the required amount of replicas associated to a resource</small></dd>
