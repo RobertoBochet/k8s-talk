@@ -43,7 +43,7 @@ nginx   1/1     Running   0          10s
 	</code></pre>
 
 	<h4 class="fragment">Our first pod is deployed 🥳</h4>
-	<h4 class="fragment">Now, we understand why we have not to<br/>deploy pods in this way</h4>
+	<h4 class="fragment">Now, we understand why we should not<br/>deploy pods in this way</h4>
 </section>
 <section>
 	<p>If a <b>pod fails</b> then <b>no particular operation</b> will be undertaken by the cluster to rescue it</p>
@@ -53,8 +53,8 @@ nginx   1/1     Running   0          10s
 	<p>Let us introduce another useful command<br/>to get all the <b>information</b> about a specific resource</p>
 	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="input language-bash">kubectl describe RESOURCE_TYPE RESOURCE_NAME</code></pre>
 	<dl class="fragment" data-fragment-index="1">
-		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run" target="_blank"><code>run</code></a></dt>
-		<dd><small>returns several information about the required resource</small></dd>
+		<dt><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#describe" target="_blank"><code>describe</code></a></dt>
+		<dd><small>returns a lot of information about the required resource</small></dd>
 	</dl>
 </section>
 <section>
@@ -76,7 +76,7 @@ Containers:
 	</code></pre>
 </section>
 <section>
-	<p>One of the most usefull information provided by the command <b>describe</b> can be found at the bottom</p>
+	<p>One of the most useful pieces of information provided<br/>by the command <b>describe</b> can be found at the bottom</p>
 	<pre class="fragment" data-fragment-index="1"><code lang="bash" class="language-bash" data-trim style="font-size: 0.68em">
 Events:
   Type    Reason     Age   From               Message
