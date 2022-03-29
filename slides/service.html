@@ -9,13 +9,13 @@
 </section>
 <section>
 	<p>When we work directly with a <b>container engine</b> we statically write rules to <b>bind ports</b> between the container and the host</p>
-	<p class="fragment">Unluckily we have not a <b>single container</b>,<br/>we have several replicas of it</p>
-	<p class="fragment">The fact that these containers are <b>volatile</b><br/>(node die, container die) does not help us</p>
+	<p class="fragment">Unluckily we do not have a <b>single container</b>,<br/>we have several replicas of it</p>
+	<p class="fragment">The fact that these containers are <b>volatile</b><br/>(node dies, container dies) does not help us</p>
 	<p class="fragment">We need an <b>additional component</b> to deal with this issue</p>
 </section>
 <section>
-	<p><b>Services</b> are thought for this scope</p>
-	<p class="fragment">A service defines a strategy to <b>bind an external port</b> to a resource (e.g deployment)</p>
+	<p><b>Services</b> are thought for this purpose</p>
+	<p class="fragment">A service defines a strategy to <b>bind an external port</b><br/>to a resource (e.g deployment)</p>
 </section>
 <section>
 	<p>There are 4 types of native service</p>
@@ -27,14 +27,14 @@
 		<dt class="fragment" data-fragment-index="3"><a href="https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer" target="_blank"><code>LoadBalancer</code></a></dt>
 		<dd class="fragment" data-fragment-index="3"><small>demands the port exposing to an external cloud load balancer</small></dd>
 		<dt class="fragment" data-fragment-index="4"><a href="https://kubernetes.io/docs/concepts/services-networking/service/#externalname" target="_blank"><code>ExternalName</code></a></dt>
-		<dd class="fragment" data-fragment-index="4"><small>associated the service to a domain name (e.g. nginx.poul.org) as entry CNAME</small></dd>
+		<dd class="fragment" data-fragment-index="4"><small>associates the service to a domain name (e.g. nginx.poul.org) as entry CNAME</small></dd>
 	</dl>
 	<small class="fragment" data-fragment-index="5"><a href="https://kubernetes.io/docs/concepts/services-networking/service/">🔗 further information about services</a></small>
 </section>
 <section>
 	<p>Services work exploiting a <b>labeling system</b></p>
 	<p class="fragment">When we deploy a resource we can associate to<br/>this a list of <b>key/value labels</b></p>
-	<p class="fragment">Then when we will create the service we will provide a <b>selector</b> based on these labels</p>
+	<p class="fragment">Then when we will create the service we will provide<br/>a <b>selector</b> based on these labels</p>
 	<p class="fragment">The service <b>routes the traffic</b> to the pods<br/>which expose the <b>targets labels</b></p>
 </section>
 <section>
@@ -61,7 +61,7 @@ nginx		NodePort	10.110.73.33	&lt;none&gt;			80:31878/TCP	8m7s
 	</code></pre>
 	<p class="fragment">We can identify a build-in service for the <b><code>kube-api</code></b>,<br/>and the service we required</p>
 
-	<small class="fragment">n.b. the node port on which expose the service was chosen by the control plane</small>
+	<small class="fragment">n.b. the node port on which to expose the service was chosen by the control plane</small>
 </section>
 <section>
 	<p>Now, we try to reach the service</p>
